@@ -17,6 +17,16 @@ jobs:
         run: |
           mkdir build
           cmake -S . -B build
+      - name: Run tests to generate coverage information
+        run: |
+          ./build/test_kilo
+          mv default.profraw test_kilo.profraw
+      - name: Merge counters from different runs and convert the result into an llvm-cov-compatible form
+        run: |
+          llvm-profdata merge -o merged.profdata -- ./*.profraw
+      - name: Collect the coverage
+        run: |
+          llvm-cov show --show-branches=count --instr-profile merged.profdata build/test_kilo > coverage.txt
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@7006c4492b2e0ee0f816d36501671557c97f5995 # v8.1.0
         env:
@@ -24,3 +34,4 @@ jobs:
         with:
           args: > 
             --define sonar.cfamily.compile-commands=build/compile_commands.json
+            --define sonar.cfamily.llvm-cov.reportPath=coverage.txt
