@@ -16,7 +16,9 @@ jobs:
       - name: Generate compilation database
         run: |
           mkdir build
-          cmake -S . -B build
+          cd build
+          cmake ..
+          make
       - name: Run tests to generate coverage information
         run: |
           ./build/test_kilo
