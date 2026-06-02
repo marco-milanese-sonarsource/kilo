@@ -202,7 +202,6 @@ struct editorSyntax HLDB[] = {
 static struct termios orig_termios; /* In order to restore at exit.*/
 
 void disableRawMode(int fd) {
-    return 0;
     /* Don't even check the return value as it's too late. */
     if (E.rawmode) {
         tcsetattr(fd,TCSAFLUSH,&orig_termios);
