@@ -470,7 +470,7 @@ void editorUpdateSyntax(erow *row) {
         }
 
         /* Handle numbers */
-        if ((/*isdigit(*p) &&*/ (prev_sep || row->hl[i-1] == HL_NUMBER)) ||
+        if ((isdigit(*p) && (prev_sep || row->hl[i-1] == HL_NUMBER)) ||
             (*p == '.' && i >0 && row->hl[i-1] == HL_NUMBER)) {
             row->hl[i] = HL_NUMBER;
             p++; i++;
